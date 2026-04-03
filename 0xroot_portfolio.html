@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shubh.0xroot — Shubham Sharma</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#050508;
+    --surface:#0d0d14;
+    --accent:#00ff88;
+    --accent2:#7b5cfa;
+    --text:#f0f0f0;
+    --muted:#666680;
+    --border:#1a1a2e;
+    --mono:'Space Mono',monospace;
+    --display:'Syne',sans-serif;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--display);overflow-x:hidden;cursor:none}
+
+  #cursor{position:fixed;width:12px;height:12px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:difference}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transition:all 0.15s ease;mix-blend-mode:difference}
+
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9990;opacity:0.4}
+  body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,255,136,0.08)}
+  .logo{font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:2px}
+  .logo span{color:var(--muted)}
+  .nav-links{display:flex;gap:2rem}
+  .nav-links a{font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:3px;text-transform:uppercase;transition:color 0.3s}
+  .nav-links a:hover{color:var(--accent)}
+
+  section{position:relative;z-index:1}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 3rem;padding-top:6rem;overflow:hidden}
+  .hero-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:4px;margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.2s forwards}
+  .hero-tag::before{content:'> ';color:var(--muted)}
+  h1.hero-title{font-size:clamp(3rem,8vw,8rem);font-weight:800;line-height:0.9;letter-spacing:-3px;margin-bottom:2rem;overflow:hidden}
+  .hero-line{display:block;opacity:0;transform:translateY(100%);animation:slideUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards}
+  .hero-line:nth-child(1){animation-delay:0.4s}
+  .hero-line:nth-child(2){animation-delay:0.6s;color:var(--accent)}
+  .hero-line:nth-child(3){animation-delay:0.8s;-webkit-text-stroke:1px rgba(240,240,240,0.3);color:transparent}
+  .hero-sub{font-family:var(--mono);font-size:13px;color:var(--muted);max-width:500px;line-height:2;opacity:0;animation:fadeUp 0.8s 1.2s forwards}
+  .hero-sub em{color:var(--text);font-style:normal}
+  .hero-cta{display:flex;gap:1.5rem;margin-top:3rem;opacity:0;animation:fadeUp 0.8s 1.4s forwards;flex-wrap:wrap}
+  .btn-primary{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:1rem 2rem;background:var(--accent);color:#000;text-decoration:none;transition:all 0.3s;position:relative;overflow:hidden}
+  .btn-primary::before{content:'';position:absolute;inset:0;background:#000;transform:translateX(-100%);transition:transform 0.3s}
+  .btn-primary:hover::before{transform:translateX(0)}
+  .btn-primary span{position:relative;z-index:1}
+  .btn-primary:hover span{color:var(--accent)}
+  .btn-ghost{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:1rem 2rem;border:1px solid rgba(0,255,136,0.3);color:var(--muted);text-decoration:none;transition:all 0.3s}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  .hero-badge{position:absolute;right:3rem;top:50%;transform:translateY(-50%);opacity:0;animation:fadeIn 1s 1.6s forwards}
+  .badge-circle{width:160px;height:160px;border:1px solid rgba(0,255,136,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:spin 20s linear infinite}
+  .badge-inner{font-family:var(--mono);font-size:20px;color:var(--accent);animation:spinReverse 20s linear infinite}
+
+  .scroll-ind{position:absolute;bottom:3rem;left:3rem;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:3px;display:flex;align-items:center;gap:1rem;opacity:0;animation:fadeUp 0.8s 2s forwards}
+  .scroll-line{width:60px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+  .scroll-line::after{content:'';position:absolute;inset:0;background:var(--accent);animation:scanline 2s infinite}
+
+  /* SERVICES */
+  #services{padding:8rem 3rem}
+  .section-header{margin-bottom:5rem}
+  .section-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:4px;margin-bottom:1rem}
+  .section-title{font-size:clamp(2rem,4vw,4rem);font-weight:800;letter-spacing:-2px}
+  .section-title span{color:var(--accent)}
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(0,255,136,0.08)}
+  .service-card{background:var(--bg);padding:2.5rem;transition:background 0.4s;position:relative;overflow:hidden}
+  .service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,0.05),transparent);opacity:0;transition:opacity 0.4s}
+  .service-card:hover{background:var(--surface)}
+  .service-card:hover::before{opacity:1}
+  .service-num{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:3px;margin-bottom:1.5rem;opacity:0.6}
+  .service-icon{font-size:2rem;margin-bottom:1.5rem;display:block}
+  .service-name{font-size:1.25rem;font-weight:700;margin-bottom:1rem;letter-spacing:-0.5px}
+  .service-desc{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:2;letter-spacing:0.5px}
+  .service-tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:3px;padding:4px 10px;border:1px solid rgba(0,255,136,0.2);color:var(--accent);margin-top:1.5rem;text-transform:uppercase}
+
+  /* PROCESS */
+  #process{padding:8rem 3rem;border-top:1px solid var(--border)}
+  .process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;position:relative}
+  .process-steps::before{content:'';position:absolute;top:2rem;left:0;right:0;height:1px;background:rgba(0,255,136,0.15)}
+  .step{padding:4rem 2rem 2rem;position:relative}
+  .step-dot{width:12px;height:12px;background:var(--accent);border-radius:50%;position:absolute;top:1.5rem;left:2rem;box-shadow:0 0 20px var(--accent)}
+  .step-num{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:3px;margin-bottom:1rem;text-transform:uppercase}
+  .step-title{font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;letter-spacing:-0.5px}
+  .step-desc{font-family:var(--mono);font-size:10px;color:var(--muted);line-height:2}
+
+  /* CONTACT */
+  #contact{padding:8rem 3rem;border-top:1px solid var(--border);text-align:center}
+  .contact-big{font-size:clamp(3rem,8vw,9rem);font-weight:800;letter-spacing:-4px;line-height:0.9;margin-bottom:3rem}
+  .contact-big span{color:var(--accent);display:block}
+  .contact-links{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-bottom:3rem}
+  .contact-item{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:2px;display:flex;align-items:center;gap:0.75rem}
+  .contact-item a{color:var(--accent);text-decoration:none;transition:opacity 0.3s}
+  .contact-item a:hover{opacity:0.7}
+  .contact-item .label{color:var(--muted);font-size:10px;letter-spacing:3px;text-transform:uppercase;min-width:80px;text-align:right}
+  .contact-divider{width:1px;height:14px;background:rgba(0,255,136,0.3)}
+  .social-links{display:flex;justify-content:center;gap:2rem;margin-top:3rem;flex-wrap:wrap}
+  .social-links a{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color 0.3s}
+  .social-links a:hover{color:var(--accent)}
+
+  footer{padding:2rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .footer-copy{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px}
+  .footer-brand{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:2px}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes spinReverse{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+  @keyframes scanline{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+  @keyframes glitch{0%,100%{clip-path:none;transform:none}20%{clip-path:polygon(0 20%,100% 20%,100% 25%,0 25%);transform:translateX(-4px)}40%{clip-path:polygon(0 60%,100% 60%,100% 65%,0 65%);transform:translateX(4px)}60%{clip-path:none;transform:none}}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  .glitch{position:relative}
+  .glitch::after{content:attr(data-text);position:absolute;inset:0;color:var(--accent2);animation:glitch 4s infinite;pointer-events:none}
+  .blink{animation:pulse 1s infinite}
+
+  @media(max-width:768px){
+    nav{padding:1rem 1.5rem}
+    .nav-links{gap:1rem}
+    .nav-links a{font-size:9px;letter-spacing:1px}
+    #hero,#services,#process,#contact{padding-left:1.5rem;padding-right:1.5rem}
+    h1.hero-title{font-size:3.5rem;letter-spacing:-2px}
+    .hero-badge{display:none}
+    .contact-big{font-size:3rem;letter-spacing:-2px}
+    footer{flex-direction:column;gap:1rem;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <div class="logo"><span>//</span> shubh.0xroot</div>
+  <div class="nav-links">
+    <a href="#services">services</a>
+    <a href="#process">process</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-tag">AI · SOCIAL MEDIA · BRAND GROWTH</div>
+  <h1 class="hero-title">
+    <span class="hero-line glitch" data-text="SHUBHAM">SHUBHAM</span>
+    <span class="hero-line">SHARMA</span>
+    <span class="hero-line">0XROOT</span>
+  </h1>
+  <p class="hero-sub">
+    <em>AI-powered brand growth</em> for businesses that refuse to be ignored.<br>
+    Product photography. UGC Videos. Social media that actually converts.
+  </p>
+  <div class="hero-cta">
+    <a href="#services" class="btn-primary"><span>Explore Services</span></a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="hero-badge">
+    <div class="badge-circle">
+      <div class="badge-inner">⚡</div>
+    </div>
+  </div>
+
+  <div class="scroll-ind">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-header reveal">
+    <div class="section-num">// 01 — WHAT I DO</div>
+    <h2 class="section-title">Services that <span>convert</span></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">001</div>
+      <span class="service-icon">📸</span>
+      <div class="service-name">AI Product Photography</div>
+      <div class="service-desc">Send me your product images. I'll transform them into studio-grade shots that look like a ₹50k photoshoot — without the studio.</div>
+      <div class="service-tag">AI · PHOTOGRAPHY</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">002</div>
+      <span class="service-icon">🎬</span>
+      <div class="service-name">AI UGC Videos</div>
+      <div class="service-desc">Authentic-looking user-generated content made with AI. No actors, no camera crew. Just content that sells.</div>
+      <div class="service-tag">AI · VIDEO</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">003</div>
+      <span class="service-icon">📅</span>
+      <div class="service-name">Content Calendar</div>
+      <div class="service-desc">A month of content, planned and scheduled. Consistent posting, strategic timing, zero gaps in your brand's online presence.</div>
+      <div class="service-tag">STRATEGY</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">004</div>
+      <span class="service-icon">✍️</span>
+      <div class="service-name">Copywriting + Post Design</div>
+      <div class="service-desc">Captions that hook, visuals that stop thumbs. Every post designed to earn attention in a feed that never sleeps.</div>
+      <div class="service-tag">COPY · DESIGN</div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="section-header reveal">
+    <div class="section-num">// 02 — HOW IT WORKS</div>
+    <h2 class="section-title">Simple. <span>Effective.</span></h2>
+  </div>
+  <div class="process-steps">
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">Step 01</div>
+      <div class="step-title">Brief</div>
+      <div class="step-desc">You tell me about your brand, product, and goals. 15 minutes, that's all.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">Step 02</div>
+      <div class="step-title">Create</div>
+      <div class="step-desc">I build your content — AI-powered visuals, videos, copy, calendar.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">Step 03</div>
+      <div class="step-title">Review</div>
+      <div class="step-desc">You approve. I refine. No agency back-and-forth. Just clean revisions.</div>
+    </div>
+    <div class="step reveal">
+      <div class="step-dot"></div>
+      <div class="step-num">Step 04</div>
+      <div class="step-title">Launch</div>
+      <div class="step-desc">Content goes live. Your brand grows. We track, tweak, and repeat.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-big reveal">
+    LET'S
+    <span>WORK.</span>
+  </div>
+
+  <div class="contact-links reveal">
+    <div class="contact-item">
+      <span class="label">EMAIL</span>
+      <div class="contact-divider"></div>
+      <a href="mailto:shubh.0xroot@gmail.com">shubh.0xroot@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <span class="label">INSTAGRAM</span>
+      <div class="contact-divider"></div>
+      <a href="https://instagram.com/shubh.0xroot" target="_blank">@shubh.0xroot</a>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <a href="mailto:shubh.0xroot@gmail.com" class="btn-primary"><span>Start a Project →</span></a>
+  </div>
+
+  <div class="social-links reveal">
+    <a href="https://instagram.com/shubh.0xroot" target="_blank">@shubh.0xroot</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 Shubham Sharma. All rights reserved.</div>
+  <div class="footer-brand">SHUBH.0XROOT <span class="blink">_</span></div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=(mx-6)+'px';cursor.style.top=(my-6)+'px';
+});
+function animRing(){
+  rx+=(mx-rx-18)*0.12;ry+=(my-ry-18)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2)';ring.style.transform='scale(1.5)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)'});
+});
+
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*80);
+    }
+  });
+},{threshold:0.1});
+reveals.forEach(el=>obs.observe(el));
+
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.querySelector('.hero-title').style.transform=`translateY(${y*0.3}px)`;
+  document.querySelector('.hero-sub').style.transform=`translateY(${y*0.15}px)`;
+  document.querySelector('.hero-tag').style.transform=`translateY(${y*0.1}px)`;
+});
+</script>
+</body>
+</html>
