@@ -45,8 +45,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:600;padding:1.1rem 3rem;display:
 .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--cyan);transition:width .25s}
 .nav-links a:hover{color:var(--cyan)}
 .nav-links a:hover::after{width:100%}
-.nav-btn{font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:.55rem 1.3rem;background:linear-gradient(135deg,var(--cyan),#0090a8);color:#000;font-weight:700;text-decoration:none;transition:all .25s;text-transform:uppercase}
+.nav-btn{font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:.55rem 1.3rem;background:linear-gradient(135deg,var(--cyan),#0090a8);color:#000;font-weight:700;text-decoration:none;transition:all .25s;text-transform:uppercase;border:none;cursor:pointer;display:flex;align-items:center;gap:.5rem}
 .nav-btn:hover{opacity:.85;transform:translateY(-1px)}
+.nav-btn .pulse{width:7px;height:7px;border-radius:50%;background:#000;position:relative}
+.nav-btn .pulse::after{content:'';position:absolute;inset:-2px;border-radius:50%;background:rgba(0,0,0,.4);animation:navpulse 1.5s infinite}
+@keyframes navpulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.8);opacity:0}}
 
 /* HERO */
 #hero{min-height:100vh;display:grid;place-items:center;position:relative;z-index:1;overflow:hidden;padding-top:5rem}
@@ -64,7 +67,7 @@ h1.htitle{font-family:var(--orb);font-size:clamp(2.2rem,4.5vw,5rem);font-weight:
 .hero-sub{font-size:1.05rem;font-weight:300;color:rgba(237,242,247,.55);line-height:1.9;margin-top:1.5rem;max-width:420px;opacity:0;animation:fadeUp .8s 1.2s forwards}
 .hero-sub em{color:var(--white);font-style:normal;font-weight:600}
 .hero-actions{display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 1.4s forwards}
-.btn-c{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:.9rem 2rem;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;display:inline-block}
+.btn-c{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:.9rem 2rem;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:.6rem;border:none;cursor:pointer}
 .btn-c.solid{background:linear-gradient(135deg,var(--cyan),#0090a8);color:#000;font-weight:700}
 .btn-c.solid::before{content:'';position:absolute;inset:0;background:#000;transform:scaleX(0);transform-origin:right;transition:transform .3s}
 .btn-c.solid:hover::before{transform:scaleX(1);transform-origin:left}
@@ -72,6 +75,12 @@ h1.htitle{font-family:var(--orb);font-size:clamp(2.2rem,4.5vw,5rem);font-weight:
 .btn-c.solid:hover span{color:var(--cyan)}
 .btn-c.ghost{border:1px solid rgba(0,229,255,.3);color:var(--muted)}
 .btn-c.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* VAPI BUTTON */
+.vapi-btn-wrap{position:relative;display:inline-flex;align-items:center}
+.vapi-live-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);position:relative;flex-shrink:0}
+.vapi-live-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--cyan);animation:vapiping 1.5s infinite}
+@keyframes vapiping{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.2);opacity:0}}
 
 /* TRUST BADGES */
 .hero-trust{display:flex;gap:1.5rem;margin-top:2rem;opacity:0;animation:fadeUp .8s 1.6s forwards;flex-wrap:wrap}
@@ -149,7 +158,6 @@ section{position:relative;z-index:1}
 .s-tab:hover{color:var(--white)}
 .showcase-panel{display:none}
 .showcase-panel.active{display:block}
-
 .proj-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:.4rem 1rem;margin-bottom:1.5rem;margin-top:2rem}
 .proj-tag.shakti{color:rgba(134,200,100,.8);border:1px solid rgba(134,200,100,.2);background:rgba(134,200,100,.04)}
 .proj-tag.saanjhal{color:rgba(255,200,100,.8);border:1px solid rgba(255,200,100,.2);background:rgba(255,200,100,.04)}
@@ -209,12 +217,23 @@ section{position:relative;z-index:1}
 @keyframes cglitch{0%,90%,100%{transform:none;opacity:0}91%{transform:translateX(-6px);opacity:.7}94%{transform:translateX(4px);opacity:.5}97%{transform:none;opacity:0}}
 .contact-sub{font-family:var(--raj);font-size:1.1rem;color:rgba(237,242,247,.4);font-weight:300;margin-bottom:3rem;line-height:1.7}
 .contact-channels{display:flex;justify-content:center;gap:1.5rem;margin-bottom:3rem;flex-wrap:wrap}
-.ch-link{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:1.5rem 2rem;border:1px solid rgba(0,229,255,.1);background:rgba(0,229,255,.025);text-decoration:none;transition:all .3s;min-width:150px}
+.ch-link{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:1.5rem 2rem;border:1px solid rgba(0,229,255,.1);background:rgba(0,229,255,.025);text-decoration:none;transition:all .3s;min-width:150px;cursor:pointer}
 .ch-link:hover{border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.06);transform:translateY(-4px)}
 .ch-icon{font-size:1.5rem}
 .ch-label{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:3px;text-transform:uppercase}
 .ch-val{font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:1px}
-.contact-cta{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;padding:1.1rem 3rem;background:linear-gradient(135deg,var(--cyan),var(--pink));color:#000;font-weight:700;text-decoration:none;transition:all .3s;position:relative;overflow:hidden}
+
+/* AI CHANNEL SPECIAL */
+.ch-link.ai-channel{border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.04);position:relative;overflow:hidden}
+.ch-link.ai-channel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(255,0,110,.04));opacity:0;transition:opacity .3s}
+.ch-link.ai-channel:hover::before{opacity:1}
+.ch-link.ai-channel .ch-val{color:var(--cyan)}
+.ai-live{display:flex;align-items:center;gap:.4rem;margin-top:.2rem}
+.ai-live-dot{width:6px;height:6px;border-radius:50%;background:#27c93f;box-shadow:0 0 8px #27c93f;animation:livepulse 1.5s infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ai-live-text{font-family:var(--mono);font-size:7px;color:#27c93f;letter-spacing:2px}
+
+.contact-cta{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:4px;text-transform:uppercase;padding:1.1rem 3rem;background:linear-gradient(135deg,var(--cyan),var(--pink));color:#000;font-weight:700;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;border:none;cursor:pointer}
 .contact-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--pink),var(--cyan));opacity:0;transition:opacity .3s}
 .contact-cta:hover::before{opacity:1}
 .contact-cta span{position:relative;z-index:1}
@@ -228,6 +247,21 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
 .reveal.vis{opacity:1;transform:translateY(0)}
+
+/* VAPI WIDGET OVERLAY */
+#vapi-overlay{position:fixed;inset:0;background:rgba(7,9,13,.92);backdrop-filter:blur(20px);z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:2rem}
+#vapi-overlay.active{display:flex}
+.vapi-modal{border:1px solid rgba(0,229,255,.2);background:#0a0d12;padding:3rem;text-align:center;max-width:420px;width:90%;position:relative}
+.vapi-modal-title{font-family:var(--orb);font-size:1.2rem;font-weight:900;color:var(--cyan);margin-bottom:.5rem}
+.vapi-modal-sub{font-family:var(--raj);font-size:.9rem;color:rgba(237,242,247,.4);margin-bottom:2rem;line-height:1.6}
+.vapi-orb{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--pink));margin:0 auto 2rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;cursor:pointer;transition:transform .3s}
+.vapi-orb:hover{transform:scale(1.05)}
+.vapi-orb.listening{animation:orbpulse 1.5s infinite}
+@keyframes orbpulse{0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,.4)}50%{box-shadow:0 0 0 20px rgba(0,229,255,0)}}
+.vapi-status{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:3px;margin-bottom:1.5rem}
+.vapi-status.connected{color:#27c93f}
+.vapi-close{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);cursor:pointer;padding:.5rem 1rem;border:1px solid rgba(255,255,255,.1);transition:all .3s;background:transparent}
+.vapi-close:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -292,7 +326,10 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
     <li><a href="#showcase">Work</a></li>
     <li><a href="#why">Why Us</a></li>
   </ul>
-  <a href="https://calendly.com/shubh-0xroot" target="_blank" class="nav-btn">Book a Call →</a>
+  <button class="nav-btn" onclick="openVapi()">
+    <div class="pulse"></div>
+    <span>Talk to AI →</span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -309,7 +346,9 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
         We build <em>AI-driven content systems</em> that make your brand impossible to scroll past — product photography, UGC videos, voice agents, and full brand identity.
       </p>
       <div class="hero-actions">
-        <a href="https://calendly.com/shubh-0xroot" target="_blank" class="btn-c solid"><span>Book a Free Call →</span></a>
+        <button class="btn-c solid" onclick="openVapi()">
+          <span>🎙 Talk to Our AI →</span>
+        </button>
         <a href="#showcase" class="btn-c ghost">See Our Work</a>
       </div>
       <div class="hero-trust">
@@ -341,7 +380,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
     </div>
   </div>
   <div class="srv-grid">
-
     <div class="srv-card reveal">
       <div class="corner"></div>
       <div class="badge-hot srv-badge">HOT</div>
@@ -351,7 +389,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
       <div class="srv-desc">Send your product images — receive studio-grade shots that look like a ₹50k photoshoot. No studio, no travel, no overhead. Pure AI precision.</div>
       <div class="srv-tag">AI · PHOTOGRAPHY</div>
     </div>
-
     <div class="srv-card reveal">
       <div class="corner"></div>
       <div class="badge-hot srv-badge">HOT</div>
@@ -361,7 +398,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
       <div class="srv-desc">Authentic-looking user-generated content — no actors, no cameras. Scroll-stopping videos that convert cold audiences into paying customers.</div>
       <div class="srv-tag">AI · VIDEO</div>
     </div>
-
     <div class="srv-card reveal">
       <div class="corner"></div>
       <div class="badge-new srv-badge">NEW</div>
@@ -371,7 +407,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
       <div class="srv-desc">An AI agent that calls, qualifies, and follows up with your leads 24/7. Human-sounding. Fraction of human cost. We use it ourselves — so you know it works.</div>
       <div class="srv-tag">AI · AUTOMATION</div>
     </div>
-
     <div class="srv-card reveal">
       <div class="corner"></div>
       <div class="srv-n">004</div>
@@ -380,17 +415,14 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
       <div class="srv-desc">Full brand kit — logo, palette, typography, guidelines. A visual identity so sharp it does half the selling before you say a word.</div>
       <div class="srv-tag">BRANDING</div>
     </div>
-
   </div>
-
-  <!-- CTA STRIP -->
   <div class="cta-strip reveal">
     <div class="cta-strip-left">
       <h3>Not sure which service fits?</h3>
-      <p>Book a free 15-min call — we'll tell you exactly what your brand needs.</p>
+      <p>Talk to our AI — it'll take your details and Shubham will follow up within 24 hours.</p>
     </div>
     <div class="cta-strip-right">
-      <a href="https://calendly.com/shubh-0xroot" target="_blank" class="btn-c solid"><span>Book Free Call →</span></a>
+      <button class="btn-c solid" onclick="openVapi()"><span>🎙 Talk to AI →</span></button>
       <a href="mailto:shubh.0xroot@gmail.com" class="btn-c ghost">Get Free Sample</a>
     </div>
   </div>
@@ -445,13 +477,10 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
       <div class="sec-label">// 03 — WORK SHOWCASE</div>
       <h2 class="sec-title">Real work. <span>Real results.</span></h2>
     </div>
-
     <div class="showcase-tabs reveal">
       <div class="s-tab active" onclick="switchTab('photos')">📸 AI Photography</div>
       <div class="s-tab" onclick="switchTab('videos')">🎬 AI UGC Videos</div>
     </div>
-
-    <!-- PHOTOS -->
     <div class="showcase-panel active" id="tab-photos">
       <div class="proj-tag shakti">◆ Shakti Organics — Ayurvedic Haircare</div>
       <div class="photo-grid mix reveal">
@@ -468,7 +497,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
           <div class="photo-overlay"><span class="photo-brand">Shakti · Burst Shot</span></div>
         </div>
       </div>
-
       <div class="proj-tag saanjhal">◆ Saanjhal Candles — Lifestyle Brand</div>
       <div class="photo-grid reveal">
         <div class="photo-item tall">
@@ -485,52 +513,19 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
         </div>
       </div>
     </div>
-
-    <!-- VIDEOS -->
     <div class="showcase-panel" id="tab-videos">
       <div class="proj-tag saanjhal">◆ Saanjhal Candles — AI UGC + Video Content</div>
       <div class="video-grid reveal">
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="AI_UGC.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">AI UGC — Lifestyle</div>
-        </div>
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="AI_UGC_.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">AI UGC — Product Focus</div>
-        </div>
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="Video_1.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">Brand Video</div>
-        </div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="AI_UGC.mp4" type="video/mp4"></video><div class="video-label">AI UGC — Lifestyle</div></div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="AI_UGC_.mp4" type="video/mp4"></video><div class="video-label">AI UGC — Product Focus</div></div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="Video_1.mp4" type="video/mp4"></video><div class="video-label">Brand Video</div></div>
       </div>
       <div class="video-grid reveal">
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="Video_2.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">Product Showcase</div>
-        </div>
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="Video_3.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">Mood Reel</div>
-        </div>
-        <div class="video-item portrait">
-          <video autoplay muted loop playsinline>
-            <source src="launch_vid.mp4" type="video/mp4">
-          </video>
-          <div class="video-label">Launch Video</div>
-        </div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="Video_2.mp4" type="video/mp4"></video><div class="video-label">Product Showcase</div></div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="Video_3.mp4" type="video/mp4"></video><div class="video-label">Mood Reel</div></div>
+        <div class="video-item portrait"><video autoplay muted loop playsinline><source src="launch_vid.mp4" type="video/mp4"></video><div class="video-label">Launch Video</div></div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -605,13 +600,14 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
         <span class="c1">LET'S</span>
         <span class="c2" data-t="GROW.">GROW.</span>
       </div>
-      <p class="contact-sub">Ready to build a brand that refuses to be ignored?<br>Book a free call or DM "SAMPLE" — no strings attached.</p>
+      <p class="contact-sub">Ready to build a brand that refuses to be ignored?<br>Talk to our AI or DM "SAMPLE" — no strings attached.</p>
       <div class="contact-channels">
-        <a href="https://calendly.com/shubh-0xroot" target="_blank" class="ch-link">
-          <div class="ch-icon">📅</div>
-          <div class="ch-label">Book a Call</div>
-          <div class="ch-val">15 Min · Free</div>
-        </a>
+        <div class="ch-link ai-channel" onclick="openVapi()">
+          <div class="ch-icon">🎙</div>
+          <div class="ch-label">Talk to AI</div>
+          <div class="ch-val">Instant · Free</div>
+          <div class="ai-live"><div class="ai-live-dot"></div><span class="ai-live-text">LIVE NOW</span></div>
+        </div>
         <a href="https://instagram.com/shubh_0xroot" target="_blank" class="ch-link">
           <div class="ch-icon">📸</div>
           <div class="ch-label">Instagram</div>
@@ -628,7 +624,7 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
           <div class="ch-val">shubh.0xroot@gmail.com</div>
         </a>
       </div>
-      <a href="https://calendly.com/shubh-0xroot" target="_blank" class="contact-cta"><span>Book a Free Call — Let's Talk →</span></a>
+      <button class="contact-cta" onclick="openVapi()"><span>🎙 Talk to Our AI — It's Free →</span></button>
     </div>
   </div>
 </section>
@@ -639,6 +635,19 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
   <div class="foot-brand"><b>0x</b>ROOT <span style="color:var(--pink);animation:blink2 1s infinite;display:inline-block">_</span></div>
 </footer>
 
+<!-- VAPI MODAL -->
+<div id="vapi-overlay">
+  <div class="vapi-modal">
+    <div class="vapi-modal-title">0xROOT AI RECEPTIONIST</div>
+    <div class="vapi-modal-sub">Our AI will collect your details and Shubham will follow up within 24 hours.</div>
+    <div class="vapi-orb" id="vapi-orb" onclick="toggleCall()">🎙</div>
+    <div class="vapi-status" id="vapi-status">CLICK TO START CALL</div>
+    <button class="vapi-close" onclick="closeVapi()">✕ CLOSE</button>
+  </div>
+</div>
+
+<!-- VAPI SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js"></script>
 <script>
 /* LOADER */
 window.addEventListener('load',()=>{
@@ -778,7 +787,7 @@ document.querySelectorAll('a,button').forEach(el=>{
 
 /* MARQUEE */
 (function(){
-  const tags=['AI Product Photography','AI UGC Videos','Voice Calling Agent','Brand Identity','Book a Free Call'];
+  const tags=['AI Product Photography','AI UGC Videos','Voice Calling Agent','Brand Identity','Talk to Our AI'];
   const track=document.getElementById('mtrack');
   let html='';
   for(let i=0;i<3;i++)tags.forEach(t=>{html+=`<div class="mtag">${t}</div>`});
@@ -813,6 +822,52 @@ function switchTab(tab){
   document.getElementById('tab-photos').classList.toggle('active',tab==='photos');
   document.getElementById('tab-videos').classList.toggle('active',tab==='videos');
 }
+
+/* VAPI */
+const VAPI_KEY='d75562f1-a2f8-4bab-b359-101394338c12';
+const ASSISTANT_ID='d75562f1-a2f8-4bab-b359-101394338c12';
+let vapi=null;
+let callActive=false;
+
+function openVapi(){
+  document.getElementById('vapi-overlay').classList.add('active');
+}
+function closeVapi(){
+  if(callActive)stopCall();
+  document.getElementById('vapi-overlay').classList.remove('active');
+}
+function toggleCall(){
+  if(callActive){stopCall();}else{startCall();}
+}
+function startCall(){
+  if(!vapi){
+    vapi=new Vapi(VAPI_KEY);
+    vapi.on('call-start',()=>{
+      callActive=true;
+      document.getElementById('vapi-status').textContent='CONNECTED — SPEAK NOW';
+      document.getElementById('vapi-status').classList.add('connected');
+      document.getElementById('vapi-orb').classList.add('listening');
+      document.getElementById('vapi-orb').textContent='🔴';
+    });
+    vapi.on('call-end',()=>{
+      callActive=false;
+      document.getElementById('vapi-status').textContent='CALL ENDED — THANK YOU';
+      document.getElementById('vapi-status').classList.remove('connected');
+      document.getElementById('vapi-orb').classList.remove('listening');
+      document.getElementById('vapi-orb').textContent='🎙';
+    });
+  }
+  document.getElementById('vapi-status').textContent='CONNECTING...';
+  vapi.start(ASSISTANT_ID);
+}
+function stopCall(){
+  if(vapi)vapi.stop();
+}
+
+/* CLOSE OVERLAY ON BACKDROP CLICK */
+document.getElementById('vapi-overlay').addEventListener('click',function(e){
+  if(e.target===this)closeVapi();
+});
 </script>
 </body>
 </html>
