@@ -844,9 +844,15 @@ async function startCall(){
   try{
     if(!vapi){
       statusEl.textContent='LOADING...';
-      const VapiModule=await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js');
-      const VapiClass=VapiModule.default||VapiModule.Vapi||window.Vapi;
-      vapi=new VapiClass(VAPI_KEY);
+      await new Promise((res,rej)=>{
+        if(window.Vapi){res();return;}
+        const s=document.createElement('script');
+        s.src='https://unpkg.com/@vapi-ai/web@latest/dist/vapi.iife.js';
+        s.onload=res;
+        s.onerror=()=>rej(new Error('SDK load failed'));
+        document.head.appendChild(s);
+      });
+      vapi=new window.Vapi(VAPI_KEY);
       vapi.on('call-start',()=>{
         callActive=true;
         statusEl.textContent='CONNECTED — SPEAK NOW';
@@ -884,3 +890,4 @@ document.getElementById('vapi-overlay').addEventListener('click',function(e){
 </script>
 </body>
 </html>
+
