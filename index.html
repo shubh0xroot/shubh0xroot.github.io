@@ -647,7 +647,6 @@ footer{padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex
 </div>
 
 <!-- VAPI SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.iife.js"></script>
 <script>
 /* LOADER */
 window.addEventListener('load',()=>{
@@ -839,26 +838,40 @@ function closeVapi(){
 function toggleCall(){
   if(callActive){stopCall();}else{startCall();}
 }
-function startCall(){
-  if(!vapi){
-    vapi=new Vapi(VAPI_KEY);
-    vapi.on('call-start',()=>{
-      callActive=true;
-      document.getElementById('vapi-status').textContent='CONNECTED — SPEAK NOW';
-      document.getElementById('vapi-status').classList.add('connected');
-      document.getElementById('vapi-orb').classList.add('listening');
-      document.getElementById('vapi-orb').textContent='🔴';
-    });
-    vapi.on('call-end',()=>{
-      callActive=false;
-      document.getElementById('vapi-status').textContent='CALL ENDED — THANK YOU';
-      document.getElementById('vapi-status').classList.remove('connected');
-      document.getElementById('vapi-orb').classList.remove('listening');
-      document.getElementById('vapi-orb').textContent='🎙';
-    });
+async function startCall(){
+  const statusEl=document.getElementById('vapi-status');
+  const orbEl=document.getElementById('vapi-orb');
+  try{
+    if(!vapi){
+      statusEl.textContent='LOADING...';
+      const VapiModule=await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js');
+      const VapiClass=VapiModule.default||VapiModule.Vapi||window.Vapi;
+      vapi=new VapiClass(VAPI_KEY);
+      vapi.on('call-start',()=>{
+        callActive=true;
+        statusEl.textContent='CONNECTED — SPEAK NOW';
+        statusEl.classList.add('connected');
+        orbEl.classList.add('listening');
+        orbEl.textContent='🔴';
+      });
+      vapi.on('call-end',()=>{
+        callActive=false;
+        statusEl.textContent='CALL ENDED — THANK YOU';
+        statusEl.classList.remove('connected');
+        orbEl.classList.remove('listening');
+        orbEl.textContent='🎙';
+      });
+      vapi.on('error',(e)=>{
+        statusEl.textContent='ERROR: '+(e&&e.message?e.message:JSON.stringify(e));
+        callActive=false;
+      });
+    }
+    statusEl.textContent='CONNECTING...';
+    await vapi.start(ASSISTANT_ID);
+  }catch(err){
+    statusEl.textContent='FAILED: '+err.message;
+    console.error('Vapi error:',err);
   }
-  document.getElementById('vapi-status').textContent='CONNECTING...';
-  vapi.start(ASSISTANT_ID);
 }
 function stopCall(){
   if(vapi)vapi.stop();
