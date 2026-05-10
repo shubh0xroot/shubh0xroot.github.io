@@ -855,9 +855,7 @@ async function startCall(){
       vapi=window.vapiSDK.run({
         apiKey: VAPI_KEY,
         assistant: ASSISTANT_ID,
-        config:{
-          button:{position:'bottom-right',offset:'40px',width:'50px',height:'50px',idle:{color:'#00e5ff',type:'pill',title:'',subtitle:'',icon:'https://unpkg.com/lucide-static@0.321.0/icons/phone.svg'},loading:{color:'#00e5ff',type:'pill',title:'Connecting...',subtitle:'',icon:'https://unpkg.com/lucide-static@0.321.0/icons/loader-2.svg'},active:{color:'#ff006e',type:'pill',title:'Call Active',subtitle:'Tap to end',icon:'https://unpkg.com/lucide-static@0.321.0/icons/phone-off.svg'}}
-        }
+        config:{ button:{ position:'bottom-right', offset:'400px' } }
       });
       vapi.on('call-start',()=>{
         callActive=true;
@@ -879,7 +877,7 @@ async function startCall(){
       });
     }
     statusEl.textContent='CONNECTING...';
-    vapi.start();
+    vapi.start(ASSISTANT_ID);
   }catch(err){
     statusEl.textContent='FAILED: '+err.message;
     console.error('Vapi error:',err);
